@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace AmbientLight
@@ -31,9 +32,28 @@ namespace AmbientLight
             control.SetSaturation(Slider_Saturation.Value);
         }
 
-        internal void UpdateDebuggingInformation(long executionTime)
+        internal void UpdateDebuggingInformation(long executionTime, double transformFunction)
         {
             Label_ExecutionTime.Content = (executionTime / 10 / 1000).ToString() + " ms";
+            Label_TransformFunctionOutput.Content = Math.Round(transformFunction, 4);
+        }
+
+        private void Window_Main_Deactivated(object sender, System.EventArgs e)
+        {
+            if (CheckBox_StayOnTop.IsChecked == true)
+            {
+                Window window = (Window)sender;
+                window.Topmost = true;
+            }
+        }
+
+        private void CheckBox_PreventFlickering_Changed(object sender, RoutedEventArgs e)
+        {
+            if (CheckBox_PreventFlickering.IsChecked == null || control == null)
+            {
+                return;
+            }
+            control.setPreventFlickering((bool)CheckBox_PreventFlickering.IsChecked);
         }
     }
 }

@@ -7,8 +7,10 @@ namespace AmbientLight
     {
         private volatile BasicColor color = new BasicColor(),
             outputColor = new BasicColor();
-        private double saturation = 0.5;
+        private double saturation = 0.5, 
+            transferFunctionFactor = 0.0; // will be set automatically
         private long startTicks = 0, executionTime = 0;
+        private bool preventFlickering = true;
 
         private Thread updateColorThread;
 
@@ -29,14 +31,23 @@ namespace AmbientLight
                 AmbientLightControl control = (AmbientLightControl)obj;
                 BasicColor color = control.color;
 
-                this.startTicks = DateTime.Now.Ticks;
-                color.Set(ScreenColor.GetAverageScreenColor(ScreenColor.DeterminationMethod.Partly));
-                control.outputColor = ColorManipulation.IncreaseSaturation(color, saturation);
-                SerialCommunication.SendColor(control.outputColor);
-                this.executionTime = DateTime.Now.Ticks - this.startTicks;
+                this.startTicks = DateTime.Now.Ticks; // measure time
+                color.Set(ScreenColor.GetAverageScreenColor(ScreenColor.DeterminationMethod.Partly)); // read screen color
 
-                this.updateUI();
-                Thread.Sleep(100);
+                double factor = saturation;
+                transferFunctionFactor = TransferFunction(color.GetDelta());
+                if (preventFlickering)
+                {
+                    factor *= transferFunctionFactor;
+                }
+                control.outputColor = ColorManipulation.IncreaseSaturation(color, factor);
+
+                SerialCommunication.SendColor(control.outputColor); // update hardware
+                this.executionTime = DateTime.Now.Ticks - this.startTicks; // stop time measurement
+
+                this.updateUI(); // update ui
+
+                Thread.Sleep(100); // keep Windows responsive
             }
         }
 
@@ -46,13 +57,23 @@ namespace AmbientLight
             {
                 // running on UI thread
                 ui.UpdateColors(this.color, this.outputColor);
-                ui.UpdateDebuggingInformation(this.executionTime);
+                ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
             }));
         }
 
-        public void SetSaturation(double value)
+        internal void SetSaturation(double value)
         {
             this.saturation = value;
+        }
+
+        private static double TransferFunction(double delta)
+        {
+            return 1 / (1 + Math.Pow(Math.E, -((delta - 0.01) * 500)));
+        }
+
+        internal void setPreventFlickering(bool preventFlickering)
+        {
+            this.preventFlickering = preventFlickering;
         }
     }
 }

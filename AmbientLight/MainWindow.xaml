@@ -1,7 +1,7 @@
 ﻿<Window x:Name="Window_Main" x:Class="AmbientLight.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ambient Light Control Center" Height="350" Width="525">
+        Title="Ambient Light Control Center" Height="350" Width="525" Deactivated="Window_Main_Deactivated">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,10 +16,16 @@
         <Canvas x:Name="Canvas_AmbientLightColor" Height="100" Margin="10,41,10,0" VerticalAlignment="Top" Grid.Column="1" Background="#FFBEB4FF"/>
         
         <Label Grid.Column="1" x:Name="Label_SaturationValue" Content="0.55" HorizontalAlignment="Right" Margin="0,146,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="38"/>
-        <Slider x:Name="Slider_Saturation" Grid.Column="1" Margin="79,146,53,0" VerticalAlignment="Top" LargeChange="0.1" Maximum="1" SmallChange="0.01" TickFrequency="0.01" TickPlacement="TopLeft" Value="0.5" ValueChanged="Slider_Saturation_ValueChanged"/>
+        <Slider x:Name="Slider_Saturation" Grid.Column="1" Margin="79,146,53,0" VerticalAlignment="Top" LargeChange="0.1" Maximum="1" SmallChange="0.01" TickFrequency="0.01" TickPlacement="BottomRight" Value="0.5" ValueChanged="Slider_Saturation_ValueChanged"/>
         <Label Content="Saturation" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,146,0,0"/>
+        <CheckBox x:Name="CheckBox_PreventFlickering" Content="Prevent flickering" Grid.Column="1" HorizontalAlignment="Left" Margin="13,177,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_PreventFlickering_Changed" Unchecked="CheckBox_PreventFlickering_Changed"/>
         
-        <Label Content="Execution Time" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_ExecutionTime" Content="Label" HorizontalAlignment="Left" Margin="105,146,0,0" VerticalAlignment="Top"/>
+        <Label Content="Execution time" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_ExecutionTime" Content="xxx ms" HorizontalAlignment="Left" Margin="126,146,0,0" VerticalAlignment="Top"/>
+        <Label Content="Transfer factor" HorizontalAlignment="Left" Margin="10,172,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_TransformFunctionOutput" Content="0.0" HorizontalAlignment="Left" Margin="126,172,0,0" VerticalAlignment="Top"/>
+
+        <CheckBox x:Name="CheckBox_Autostart" Content="Autostart" HorizontalAlignment="Left" Margin="10,0,0,31" VerticalAlignment="Bottom" IsEnabled="False"/>
+        <CheckBox x:Name="CheckBox_StayOnTop" Content="Window always on top" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

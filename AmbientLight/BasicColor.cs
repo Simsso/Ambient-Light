@@ -71,5 +71,10 @@ namespace AmbientLight
         {
             return "(" + this.R.ToString() + "," + this.G.ToString() + "," + this.B.ToString() + ")";
         }
+
+        public double GetDelta()
+        {
+            return (double)(GetMaxRGB() - GetMinRGB()) / (double)byte.MaxValue;
+        }
     }
 }

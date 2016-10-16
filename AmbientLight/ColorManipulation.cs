@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace AmbientLight
 {
     static class ColorManipulation
