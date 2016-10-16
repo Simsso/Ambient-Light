@@ -1,6 +1,8 @@
-﻿namespace AmbientLight
+﻿using System;
+
+namespace AmbientLight
 {
-    class BasicColor
+    internal class BasicColor
     {
         public byte R = 0, G = 0, B = 0;
 
@@ -12,6 +14,10 @@
         public BasicColor(byte r, byte g, byte b)
         {
             this.Set(r, g, b);
+        }
+
+        public BasicColor(BasicColor copyFrom) {
+            this.Set(copyFrom.R, copyFrom.G, copyFrom.B);
         }
 
         public void Set(BasicColor color)
@@ -31,6 +37,39 @@
         public byte[] GetByteArray()
         {
             return new byte[] { this.R, this.G, this.B };
+        }
+
+        public byte GetMaxRGB()
+        {
+            return Math.Max(this.R, Math.Max(this.G, this.B));
+        }
+
+        public byte GetMinRGB()
+        {
+            return Math.Min(this.R, Math.Min(this.G, this.B));
+        }
+
+        public BasicColor Map(byte inMin, byte inMax, byte outMin, byte outMax)
+        {
+            this.R = this.R.Map(inMin, inMax, outMin, outMax);
+            this.G = this.G.Map(inMin, inMax, outMin, outMax);
+            this.B = this.B.Map(inMin, inMax, outMin, outMax);
+            return this;
+        }
+
+        public BasicColor Copy()
+        {
+            return new BasicColor(this);
+        }
+
+        public bool IsGray()
+        {
+            return (this.R == this.G && this.G == this.B);
+        }
+
+        public override string ToString()
+        {
+            return "(" + this.R.ToString() + "," + this.G.ToString() + "," + this.B.ToString() + ")";
         }
     }
 }

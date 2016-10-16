@@ -31,6 +31,7 @@ namespace AmbientLight
                         g.DrawImage(screenshot, new Rectangle(0, 0, 1, 1));
                     }
                     Color avg = bmp.GetPixel(0, 0);
+                    bmp.Dispose();
                     avgColor = new BasicColor(avg.R, avg.G, avg.B);
                     break;
                 case DeterminationMethod.Partly:
