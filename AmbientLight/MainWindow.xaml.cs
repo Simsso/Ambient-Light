@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace AmbientLight
@@ -54,6 +55,33 @@ namespace AmbientLight
                 return;
             }
             control.setPreventFlickering((bool)CheckBox_PreventFlickering.IsChecked);
+        }
+
+        private void ComboBox_UpdateSpeed_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            switch (ComboBox_UpdateSpeed.SelectedIndex)
+            {
+                case 0:
+                    control.setUpdatespeed(UpdateSpeed.Low);
+                    break;
+                case 2:
+                    control.setUpdatespeed(UpdateSpeed.Maximum);
+                    break;
+                default:
+                    control.setUpdatespeed(UpdateSpeed.Normal);
+                    break;
+            }
+        }
+
+        internal void ShowError(Exception exception)
+        {
+            Label_ErrorOutputTitle.Content = exception.GetType();
+            Label_ErrorOutputDetails.Content = exception.Message;
         }
     }
 }

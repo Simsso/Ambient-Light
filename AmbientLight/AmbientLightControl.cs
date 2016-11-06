@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace AmbientLight
@@ -7,10 +8,13 @@ namespace AmbientLight
     {
         private volatile BasicColor color = new BasicColor(),
             outputColor = new BasicColor();
+        private volatile Exception error = null;
+
         private double saturation = 0.5, 
             transferFunctionFactor = 0.0; // will be set automatically
         private long startTicks = 0, executionTime = 0;
         private bool preventFlickering = true;
+        private UpdateSpeed updateSpeed = UpdateSpeed.Normal;
 
         private Thread updateColorThread;
 
@@ -42,12 +46,35 @@ namespace AmbientLight
                 }
                 control.outputColor = ColorManipulation.IncreaseSaturation(color, factor);
 
-                SerialCommunication.SendColor(control.outputColor); // update hardware
+                try
+                {
+                    SerialCommunication.SendColor(control.outputColor); // update hardware
+                    this.error = null;
+                }
+                catch (IOException e)
+                {
+                    this.error = e;
+                }
+
                 this.executionTime = DateTime.Now.Ticks - this.startTicks; // stop time measurement
 
                 this.updateUI(); // update ui
 
-                Thread.Sleep(100); // keep Windows responsive
+                switch (this.updateSpeed)
+                {
+                    case UpdateSpeed.Low:
+                        Thread.Sleep(400); // keep Windows very responsive
+                        break;
+                    case UpdateSpeed.Normal:
+                        Thread.Sleep(100);
+                        break;
+                    case UpdateSpeed.Maximum:
+                        // continue as quick as possible
+                        break;
+                    default:
+                        Thread.Sleep(100);
+                        break;
+                }
             }
         }
 
@@ -58,6 +85,7 @@ namespace AmbientLight
                 // running on UI thread
                 ui.UpdateColors(this.color, this.outputColor);
                 ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
+                ui.ShowError(this.error);
             }));
         }
 
@@ -75,5 +103,17 @@ namespace AmbientLight
         {
             this.preventFlickering = preventFlickering;
         }
+
+        internal void setUpdatespeed(UpdateSpeed newSpeed)
+        {
+            this.updateSpeed = newSpeed;
+        }
+    }
+
+    enum UpdateSpeed
+    {
+        Low,
+        Normal,
+        Maximum
     }
 }
