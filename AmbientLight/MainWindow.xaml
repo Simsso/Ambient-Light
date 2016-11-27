@@ -1,7 +1,7 @@
 ﻿<Window x:Name="Window_Main" x:Class="AmbientLight.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ambient Light Control Center" Height="350" Width="525" Deactivated="Window_Main_Deactivated" ResizeMode="NoResize">
+        Title="Ambient Light Control Center" Height="400" Width="525" Deactivated="Window_Main_Deactivated" ResizeMode="NoResize" Icon="Icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -19,6 +19,9 @@
         <Slider x:Name="Slider_Saturation" Grid.Column="1" Margin="122,146,10,0" VerticalAlignment="Top" LargeChange="0.1" Maximum="1" SmallChange="0.01" TickFrequency="0.01" TickPlacement="BottomRight" Value="0.5" ValueChanged="Slider_Saturation_ValueChanged"/>
         <Label Content="Saturation" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,146,0,0"/>
         <CheckBox x:Name="CheckBox_PreventFlickering" Content="Prevent flickering" Grid.Column="1" HorizontalAlignment="Left" Margin="13,177,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_PreventFlickering_Changed" Unchecked="CheckBox_PreventFlickering_Changed"/>
+        <Label Grid.Column="1" x:Name="Label_BrightnessValue" Content="1" HorizontalAlignment="Right" Margin="0,198,142,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="38"/>
+        <Slider x:Name="Slider_Brightness" Grid.Column="1" Margin="122,198,10,0" VerticalAlignment="Top" LargeChange="0" Maximum="1" SmallChange="0.01" TickFrequency="0.01" TickPlacement="BottomRight" Value="1" ValueChanged="Slider_Brightness_ValueChanged"/>
+        <Label Content="Brightness" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,198,0,0"/>
 
         <Label x:Name="Label_ErrorOutputTitle" Grid.Column="1" VerticalAlignment="Bottom" Margin="10,0,10,23" Content="Exception type"/>
         <Label x:Name="Label_ErrorOutputDetails" Grid.Column="1" VerticalAlignment="Bottom" Margin="10,0,10,5" Content="Exception description"/>
@@ -36,12 +39,12 @@
 
         <CheckBox x:Name="CheckBox_Autostart" Content="Autostart" HorizontalAlignment="Left" Margin="10,0,0,31" VerticalAlignment="Bottom" IsEnabled="False"/>
         <CheckBox x:Name="CheckBox_StayOnTop" Content="Window always on top" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom"/>
-        <Label Content="COM Port" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,198,0,0"/>
-        <ComboBox x:Name="ComboBox_SelectCOMPort" Grid.Column="1" HorizontalAlignment="Right" Margin="0,200,66,0" VerticalAlignment="Top" Width="71" SelectionChanged="ComboBox_SelectCOMPort_SelectionChanged"/>
-        <Label Content="Baud rate" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,224,0,0"/>
-        <ComboBox x:Name="ComboBox_SelectBaudRate" Grid.Column="1" HorizontalAlignment="Right" Margin="0,226,10,0" VerticalAlignment="Top" Width="127">
+        <Label Content="COM Port" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,246,0,0"/>
+        <ComboBox x:Name="ComboBox_SelectCOMPort" Grid.Column="1" HorizontalAlignment="Right" Margin="0,248,66,0" VerticalAlignment="Top" Width="71" SelectionChanged="ComboBox_SelectCOMPort_SelectionChanged"/>
+        <Label Content="Baud rate" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,272,0,0"/>
+        <ComboBox x:Name="ComboBox_SelectBaudRate" Grid.Column="1" HorizontalAlignment="Right" Margin="0,274,10,0" VerticalAlignment="Top" Width="127">
             <ComboBoxItem IsSelected="True">9600</ComboBoxItem>
         </ComboBox>
-        <Button x:Name="Button_RefreshCOMPortList" Content="Refresh" Grid.Column="1" HorizontalAlignment="Left" Margin="198,200,0,0" VerticalAlignment="Top" Width="51" Click="Button_RefreshCOMPortList_Click"/>
+        <Button x:Name="Button_RefreshCOMPortList" Content="Refresh" Grid.Column="1" HorizontalAlignment="Right" Margin="0,248,10,0" VerticalAlignment="Top" Width="51" Click="Button_RefreshCOMPortList_Click"/>
     </Grid>
 </Window>

@@ -115,5 +115,15 @@ namespace AmbientLight
                SerialCommunication.SetSelectedPortName((string)ComboBox_SelectCOMPort.SelectedValue);
             }
         }
+
+        private void Slider_Brightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (control == null)
+            {
+                return;
+            }
+            Label_BrightnessValue.Content = Slider_Brightness.Value.ToString();
+            control.SetBrightness(Slider_Brightness.Value);
+        }
     }
 }

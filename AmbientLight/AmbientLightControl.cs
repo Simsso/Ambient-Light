@@ -11,6 +11,7 @@ namespace AmbientLight
         private volatile Exception error = null;
 
         private double saturation = 0.5, 
+            brightness = 1,
             transferFunctionFactor = 0.0; // will be set automatically
         private long startTicks = 0, executionTime = 0;
         private bool preventFlickering = true;
@@ -44,7 +45,7 @@ namespace AmbientLight
                 {
                     factor *= transferFunctionFactor;
                 }
-                control.outputColor = ColorManipulation.IncreaseSaturation(color, factor);
+                control.outputColor = ColorManipulation.IncreaseSaturation(color, factor).Multiply(brightness);
 
                 try
                 {
@@ -92,6 +93,11 @@ namespace AmbientLight
         internal void SetSaturation(double value)
         {
             this.saturation = value;
+        }
+
+        internal void SetBrightness(double value)
+        {
+            this.brightness = value;
         }
 
         private static double TransferFunction(double delta)

@@ -6,11 +6,12 @@ namespace AmbientLight
     {
         private static volatile SerialPort arduinoPort;
         private static int baudRate = 9600;
+        private static string defaultPort = "COM3";
 
         static SerialCommunication()
         {
             // init serial port communication
-            arduinoPort = new SerialPort("COM3", baudRate);
+            arduinoPort = new SerialPort(defaultPort, baudRate);
         }
 
         public static void SendColor(BasicColor color) {

@@ -76,5 +76,10 @@ namespace AmbientLight
         {
             return (double)(GetMaxRGB() - GetMinRGB()) / (double)byte.MaxValue;
         }
+
+        public BasicColor Multiply(double factor)
+        {
+            return this.Map(0, byte.MaxValue, 0, (byte)((double)byte.MaxValue * factor));
+        }
     }
 }
