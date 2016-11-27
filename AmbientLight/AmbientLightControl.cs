@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AmbientLight
 {
@@ -52,7 +53,7 @@ namespace AmbientLight
                     SerialCommunication.SendColor(control.outputColor); // update hardware
                     this.error = null;
                 }
-                catch (IOException e)
+                catch (Exception e)
                 {
                     this.error = e;
                 }
@@ -81,13 +82,19 @@ namespace AmbientLight
 
         private void updateUI()
         {
-            ui.Window_Main.Dispatcher.Invoke(new Action(() =>
+            try
             {
-                // running on UI thread
-                ui.UpdateColors(this.color, this.outputColor);
-                ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
-                ui.ShowError(this.error);
-            }));
+                ui.Window_Main.Dispatcher.Invoke(new Action(() =>
+                {
+                    // running on UI thread
+                    ui.UpdateColors(this.color, this.outputColor);
+                    ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
+                    ui.ShowError(this.error);
+                }));
+            }
+            catch (TaskCanceledException e)
+            {
+            }
         }
 
         internal void SetSaturation(double value)

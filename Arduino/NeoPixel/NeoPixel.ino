@@ -38,7 +38,6 @@ void loop() {
     Serial.flush();
   }
   millisIntoTransition = millis() - lastColorDataReceived;
-  Serial.println(millisIntoTransition);
   if (millisIntoTransition >= transitionTimeMillis) {
     curR = r; curG = g; curB = b;
   }
