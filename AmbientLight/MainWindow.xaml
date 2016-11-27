@@ -37,8 +37,11 @@
         <CheckBox x:Name="CheckBox_Autostart" Content="Autostart" HorizontalAlignment="Left" Margin="10,0,0,31" VerticalAlignment="Bottom" IsEnabled="False"/>
         <CheckBox x:Name="CheckBox_StayOnTop" Content="Window always on top" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom"/>
         <Label Content="COM Port" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,198,0,0"/>
-        <ComboBox x:Name="ComboBox_SelectCOMPort" Grid.Column="1" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Width="127" IsEnabled="False"/>
+        <ComboBox x:Name="ComboBox_SelectCOMPort" Grid.Column="1" HorizontalAlignment="Right" Margin="0,200,66,0" VerticalAlignment="Top" Width="71" SelectionChanged="ComboBox_SelectCOMPort_SelectionChanged"/>
         <Label Content="Baud rate" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,224,0,0"/>
-        <ComboBox x:Name="ComboBox_SelectBaudRate" Grid.Column="1" HorizontalAlignment="Right" Margin="0,226,10,0" VerticalAlignment="Top" Width="127" IsEnabled="False" ItemsSource="{Binding SerialCommunication.ports}"/>
+        <ComboBox x:Name="ComboBox_SelectBaudRate" Grid.Column="1" HorizontalAlignment="Right" Margin="0,226,10,0" VerticalAlignment="Top" Width="127">
+            <ComboBoxItem IsSelected="True">9600</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="Button_RefreshCOMPortList" Content="Refresh" Grid.Column="1" HorizontalAlignment="Left" Margin="198,200,0,0" VerticalAlignment="Top" Width="51" Click="Button_RefreshCOMPortList_Click"/>
     </Grid>
 </Window>

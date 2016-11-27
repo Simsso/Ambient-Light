@@ -13,6 +13,7 @@ namespace AmbientLight
         {
             InitializeComponent();
             control = new AmbientLightControl(this);
+            refreshPortList();
         }
 
         internal void UpdateColors(BasicColor screen, BasicColor output)
@@ -80,8 +81,39 @@ namespace AmbientLight
 
         internal void ShowError(Exception exception)
         {
-            Label_ErrorOutputTitle.Content = exception.GetType();
-            Label_ErrorOutputDetails.Content = exception.Message;
+            if (exception == null)
+            {
+                Label_ErrorOutputTitle.Content = "";
+                Label_ErrorOutputDetails.Content = "";
+            }
+            else
+            {
+                Label_ErrorOutputTitle.Content = exception.GetType();
+                Label_ErrorOutputDetails.Content = exception.Message;
+            }
+        }
+
+        private void refreshPortList()
+        {
+            ComboBox_SelectCOMPort.Items.Clear();
+            ComboBox_SelectCOMPort.SelectedIndex = -1;
+            foreach (string portName in SerialCommunication.GetPortNames())
+            {
+                ComboBox_SelectCOMPort.Items.Add(portName);
+            }
+        }
+
+        private void Button_RefreshCOMPortList_Click(object sender, RoutedEventArgs e)
+        {
+            refreshPortList();
+        }
+
+        private void ComboBox_SelectCOMPort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBox_SelectCOMPort.SelectedIndex != -1)
+            {
+               SerialCommunication.SetSelectedPortName((string)ComboBox_SelectCOMPort.SelectedValue);
+            }
         }
     }
 }
