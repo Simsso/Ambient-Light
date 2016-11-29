@@ -21,6 +21,7 @@ Adafruit_NeoPixel light = Adafruit_NeoPixel(
   NEO_GRB + NEO_KHZ800);
 
 void setup() {
+  pinMode(13, OUTPUT);
   Serial.begin(9600);
   
   light.begin(); // initialize NeoPixel library
@@ -33,9 +34,14 @@ void loop() {
     lastR = curR; lastG = curG; lastB = curB;
     r = Serial.read(); g = Serial.read(); b = Serial.read();
     lastColorDataReceived = millis();
+    digitalWrite(13, LOW);
   }
   if (Serial.available() > 3) {
     Serial.flush();
+    digitalWrite(13, HIGH); // debugging
+    while(Serial.available()) {
+      Serial.read(); // flush
+    }
   }
   millisIntoTransition = millis() - lastColorDataReceived;
   if (millisIntoTransition >= transitionTimeMillis) {
@@ -59,11 +65,15 @@ void setOutputColor(byte r, byte g, byte b) {
 }
 
 void showInitTest() {
+  digitalWrite(13, HIGH);
   setOutputColor(255, 0, 0);
   delay(1000);
+  digitalWrite(13, LOW);
   setOutputColor(0, 255, 0);
   delay(1000);
+  digitalWrite(13, HIGH);
   setOutputColor(0, 0, 255);
   delay(1000);
+  digitalWrite(13, LOW);
   setOutputColor(0, 0, 0);
 }

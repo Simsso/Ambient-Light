@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +15,25 @@ namespace AmbientLight
             InitializeComponent();
             control = new AmbientLightControl(this);
             refreshPortList();
+
+            System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Visible = true;
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/AmbientLight;component/Icon.ico")).Stream;
+            notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+            notifyIcon.DoubleClick +=
+                delegate(object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                };
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == System.Windows.WindowState.Minimized)
+                this.Hide();
+
+            base.OnStateChanged(e);
         }
 
         internal void UpdateColors(BasicColor screen, BasicColor output)
@@ -42,11 +62,8 @@ namespace AmbientLight
 
         private void Window_Main_Deactivated(object sender, System.EventArgs e)
         {
-            if (CheckBox_StayOnTop.IsChecked == true)
-            {
-                Window window = (Window)sender;
-                window.Topmost = true;
-            }
+            Window window = (Window)sender;
+            window.Topmost = (CheckBox_StayOnTop.IsChecked == true);
         }
 
         private void CheckBox_PreventFlickering_Changed(object sender, RoutedEventArgs e)

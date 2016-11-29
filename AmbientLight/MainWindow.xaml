@@ -1,7 +1,7 @@
 ﻿<Window x:Name="Window_Main" x:Class="AmbientLight.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ambient Light Control Center" Height="400" Width="525" Deactivated="Window_Main_Deactivated" ResizeMode="NoResize" Icon="Icon.ico">
+        Title="Ambient Light Control Center" Height="400" Width="525" Deactivated="Window_Main_Deactivated" ResizeMode="CanMinimize" Icon="Icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

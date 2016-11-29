@@ -82,19 +82,13 @@ namespace AmbientLight
 
         private void updateUI()
         {
-            try
+            ui.Window_Main.Dispatcher.Invoke(new Action(() =>
             {
-                ui.Window_Main.Dispatcher.Invoke(new Action(() =>
-                {
-                    // running on UI thread
-                    ui.UpdateColors(this.color, this.outputColor);
-                    ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
-                    ui.ShowError(this.error);
-                }));
-            }
-            catch (TaskCanceledException e)
-            {
-            }
+                // running on UI thread
+                ui.UpdateColors(this.color, this.outputColor);
+                ui.UpdateDebuggingInformation(this.executionTime, transferFunctionFactor);
+                ui.ShowError(this.error);
+            }));
         }
 
         internal void SetSaturation(double value)
